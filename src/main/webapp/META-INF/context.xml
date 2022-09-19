@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configration>
+<Context displayName="Sample Site" docBase="SampleSite" path="/sandbox_servlet" reloadable="true">
+		<Resource name="jdbc/samplesite" auth="Container" type="javax.sql.DataSource"
+		username="sa" password="" driverClassName="org.h2.Driver"
+		url="jdbc:h2:mem://localhost/~/samplesite"
+		maxTotal="4" maxWaitMillis="5000" maxIdle="2" />
+</Context>

@@ -30,24 +30,13 @@ public class TemplateEngineUtil {
 			engine.setTemplateResolver(resolver);
 
 		}
-		//engine.setTemplateResolver(templateResolver(servletContext));
 		return engine;
 	}
-	/*
-	private static ITemplateResolver templateResolver(ServletContext servletContext) {
-		ServletContextTemplateResolver resolver = new ServletContextTemplateResolver(servletContext);
-		resolver.setPrefix("/WEB-INF/views/");
-		resolver.setSuffix(".html");
-		resolver.setTemplateMode(TemplateMode.HTML);
-		//resolver.setCharacterEncoding("UTF-8");
-		return resolver;
-	}
-	*/
 
 	public static void render(String template, HttpServletRequest req, HttpServletResponse resp)
 			 throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
-        resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("text/html; charset=UTF-8");
 		WebContext context = new WebContext(req, resp, req.getServletContext());
 		Enumeration<String> names = req.getAttributeNames();
         while (names.hasMoreElements()) {
