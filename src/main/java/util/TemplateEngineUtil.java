@@ -35,8 +35,6 @@ public class TemplateEngineUtil {
 
 	public static void render(String template, HttpServletRequest req, HttpServletResponse resp)
 			 throws ServletException, IOException {
-		req.setCharacterEncoding("UTF-8");
-        resp.setContentType("text/html; charset=UTF-8");
 		WebContext context = new WebContext(req, resp, req.getServletContext());
 		Enumeration<String> names = req.getAttributeNames();
         while (names.hasMoreElements()) {
