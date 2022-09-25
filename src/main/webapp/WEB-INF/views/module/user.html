@@ -3,7 +3,7 @@
 		<span class="glyphicon glyphicon-user"></span>&nbsp;ユーザー
 	</h3>
 </div>
-<div class="panel-body">
+<div class="panel-body" xmlns:th="http://www.thymeleaf.org">
 	<form method="post" action="#">
 		<th:block th:if="${ session.user.isAuth() }">
 			<p>ようこそ、<span th:text="${ session.user.getUserId() }">ユーザー</span>さん</p>
