@@ -1,0 +1,34 @@
+<div class="panel-heading">
+	<h3 class="panel-title">
+		<span class="glyphicon glyphicon-user"></span>&nbsp;ユーザー
+	</h3>
+</div>
+<div class="panel-body">
+	<form method="post" action="#">
+		<th:block th:if="${ session.user.isAuth() }">
+			<p>ようこそ、<span th:text="${ session.user.getUserId() }">ユーザー</span>さん</p>
+			<input type="submit" class="btn btn-default" name="logout"
+				value="ログアウト" />
+		</th:block>
+		<th:block th:if="${ !session.user.isAuth() }">
+			<dl>
+				<dt>
+					<label for="userId" class="control-label">ユーザーID：</label>
+				</dt>
+				<dd>
+					<input type="text" class="form-control input-sm" name="userId"
+						value="" />
+				</dd>
+				<dt>
+					<label for="userPass" class="control-label">パスワード：</label>
+				</dt>
+				<dd>
+					<input type="password" class="form-control input-sm" name="userPass" value="" />
+				</dd>
+			</dl>
+			<input type="submit" class="btn btn-default" name="login"
+				value="ログイン" />
+			<a class="btn btn-default" href="./user?register=true">新規登録</a>
+		</th:block>
+	</form>
+</div>

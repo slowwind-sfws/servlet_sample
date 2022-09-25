@@ -9,19 +9,22 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
+
+import biz.domain.UserBean;
 
 /**
  * Servlet Filter implementation class CommonFiler
  */
-@WebFilter(urlPatterns={"*.action"})
+@WebFilter(urlPatterns = { "*.action" })
 public class CommonFiler implements Filter {
 
-    /**
-     * Default constructor.
-     */
-    public CommonFiler() {
-        // TODO Auto-generated constructor stub
-    }
+	/**
+	 * Default constructor.
+	 */
+	public CommonFiler() {
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see Filter#destroy()
@@ -33,12 +36,21 @@ public class CommonFiler implements Filter {
 	/**
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
 		// TODO Auto-generated method stub
 		// place your code here
 		request.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
 
+		// User
+		HttpServletRequest httpRequest = (HttpServletRequest) request;
+		UserBean user = (UserBean) httpRequest.getSession().getAttribute("user");
+
+		if (user == null) {
+			user = new UserBean();
+		}
+		httpRequest.getSession().setAttribute("user", user);
 		// pass the request along the filter chain
 		chain.doFilter(request, response);
 	}

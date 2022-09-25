@@ -1,7 +1,6 @@
 package util;
 
 import java.io.IOException;
-import java.util.Enumeration;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -36,12 +35,18 @@ public class TemplateEngineUtil {
 	public static void render(String template, HttpServletRequest req, HttpServletResponse resp)
 			 throws ServletException, IOException {
 		WebContext context = new WebContext(req, resp, req.getServletContext());
-		Enumeration<String> names = req.getAttributeNames();
-        while (names.hasMoreElements()) {
-            String name = names.nextElement();
-            Object value = req.getAttribute(name);
-            context.setVariable(name, value);
-        }
+//		Enumeration<String> names = req.getAttributeNames();
+//        while (names.hasMoreElements()) {
+//            String name = names.nextElement();
+//            Object value = req.getAttribute(name);
+//            context.setVariable(name, value);
+//        }
+//        names = req.getSession().getAttributeNames();
+//        while (names.hasMoreElements()) {
+//            String name = names.nextElement();
+//            Object value = req.getSession().getAttribute(name);
+//            context.getSession().setAttribute(name, value);//.setVariable(name, value);
+//        }
 
 		engine.process(template, context, resp.getWriter());
 	}

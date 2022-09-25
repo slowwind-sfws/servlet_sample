@@ -14,7 +14,7 @@ import util.TemplateEngineUtil;
 /**
  * Servlet implementation class DispatcherServlet
  */
-@WebServlet(urlPatterns={"*.action"})
+@WebServlet(urlPatterns = { "*.action" })
 public class DispatcherServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -25,7 +25,7 @@ public class DispatcherServlet extends HttpServlet {
 			String path = req.getServletPath().substring(1);
 			path = path.substring(0, 1).toUpperCase() + path.substring(1); //
 			String name = path.replace(".a", "A").replace("/", ".");
-			Action action = (Action)Class.forName("web.action."+name).getDeclaredConstructor().newInstance();
+			Action action = (Action) Class.forName("web.action." + name).getDeclaredConstructor().newInstance();
 			String url = action.execute(req, resp);
 			TemplateEngineUtil.render(url, req, resp);
 		} catch (Exception e) {
@@ -35,8 +35,6 @@ public class DispatcherServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//		req.setAttribute("recipient", "World");
-//		TemplateEngineUtil.render("index", req, resp);
 		doPost(req, resp);
 	}
 

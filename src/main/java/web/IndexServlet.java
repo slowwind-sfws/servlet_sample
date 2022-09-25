@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import biz.domain.UserBean;
 import util.TemplateEngineUtil;
 
 /**
@@ -22,6 +23,12 @@ public class IndexServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		resp.setContentType("text/html; charset=UTF-8");
 		req.setAttribute("recipient", "World");
+		UserBean user = (UserBean) req.getSession().getAttribute("user");
+
+		if (user == null) {
+			user = new UserBean();
+		}
+		req.getSession().setAttribute("user", user);
 		TemplateEngineUtil.render("index", req, resp);
 	}
 
