@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import web.Action;
 
-public class DummyAction implements Action {
+public class HomeAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {

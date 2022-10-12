@@ -8,9 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import biz.domain.UserBean;
-import util.TemplateEngineUtil;
-
 /**
  * Servlet implementation class IndexServlet
  */
@@ -20,7 +17,7 @@ public class IndexServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.setCharacterEncoding("UTF-8");
+		/*req.setCharacterEncoding("UTF-8");
 		resp.setContentType("text/html; charset=UTF-8");
 		req.setAttribute("recipient", "World");
 		UserBean user = (UserBean) req.getSession().getAttribute("user");
@@ -29,7 +26,8 @@ public class IndexServlet extends HttpServlet {
 			user = new UserBean();
 		}
 		req.getSession().setAttribute("user", user);
-		TemplateEngineUtil.render("index", req, resp);
+		TemplateEngineUtil.render("index", req, resp);*/
+		resp.sendRedirect("/servlet_sample/Home.action");
 	}
 
 }
