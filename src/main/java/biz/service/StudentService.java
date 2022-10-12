@@ -2,7 +2,6 @@ package biz.service;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -10,18 +9,18 @@ import biz.Bean;
 import biz.DAO;
 import biz.DataNotFoundException;
 import biz.Service;
-import biz.domain.UserBean;
+import biz.domain.StudentBean;
 
-public class UserService extends DAO implements Service {
+public class StudentService extends DAO implements Service {
 	// Singletonパターン（GoFデザインパターン）
 	// 用途：一つのインスタンスを共有する、複数のインスタンス生成を認めない
-	private static UserService service = null; // 唯一のインスタンス
+	private static StudentService service = null; // 唯一のインスタンス
 
-	private UserService() {} // privateにすることで、外部からアクセスできなくなる
+	private StudentService() {} // privateにすることで、外部からアクセスできなくなる
 
-	public static UserService getInstance() { // staticメソッドでインスタンス（へのポインタ）を得る
+	public static StudentService getInstance() { // staticメソッドでインスタンス（へのポインタ）を得る
 		if (service == null) {
-			service = new UserService();
+			service = new StudentService();
 		}
 		return service;
 	}
@@ -41,12 +40,19 @@ public class UserService extends DAO implements Service {
 	@Override
 	public boolean register(Bean bean) {
 		Connection db = this.getConnection();
-		UserBean user = (UserBean) bean;
+		StudentBean st = (StudentBean) bean;
 		boolean result = false;
-		try (PreparedStatement ps = db.prepareStatement("INSERT INTO usertbl(realName, userID, passwd) VALUES(?, ?, ?)")) {
-			ps.setString(1, user.getRealName());
-			ps.setString(2, user.getUserId());
-			ps.setString(3, user.getPass());
+		String sql = "INSERT INTO studenttbl(grade, class, serial, name, furi, birth, isMale, address)"
+				+" VALUES(?, ?, ?, ?, ?, ?, ?. ?)";
+		try (PreparedStatement ps = db.prepareStatement(sql)) {
+			ps.setInt(1, st.getGrade());
+			ps.setString(2, st.getClassName());
+			ps.setString(3, st.getSerial());
+			ps.setString(4, st.getName());
+			ps.setString(5, st.getFuri());
+			ps.setString(6, st.getBirth());
+			ps.setBoolean(7, st.isMALE());
+			ps.setString(8, st.getAddress());
 			ps.executeUpdate();
 			result = true;
 		} catch (SQLException e) {
@@ -67,25 +73,6 @@ public class UserService extends DAO implements Service {
 	public void delete(int id) throws DataNotFoundException {
 		// TODO 自動生成されたメソッド・スタブ
 
-	}
-
-	public String search(String userId, String pass) {
-		Connection db = this.getConnection();
-		String result = null;
-		try (PreparedStatement ps = db.prepareStatement("SELECT * FROM usertbl WHERE userID=? AND passwd=?")) {
-			ps.setString(1, userId);
-			ps.setString(2, pass);
-			ResultSet rst = ps.executeQuery();
-			if (rst.next()) {
-				result = rst.getString("realName");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			this.closeConnection(db);
-		}
-
-		return result;
 	}
 
 }
