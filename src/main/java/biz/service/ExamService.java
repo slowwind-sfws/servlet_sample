@@ -2,7 +2,9 @@ package biz.service;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import biz.Bean;
@@ -27,8 +29,25 @@ public class ExamService extends DAO implements Service {
 
 	@Override
 	public List<Bean> findAll() {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+		List<Bean> list = new ArrayList<Bean>();
+		Connection db = this.getConnection();
+		try (PreparedStatement ps = db.prepareStatement("SELECT * FROM examtbl")) {
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				list.add(new ExamBean(rs.getInt("studentId"), rs.getString("subjectName"), rs.getInt("point")));
+			}
+			rs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.closeConnection(db);
+		}
+//		list.add(new ExamBean(0, "算数", 80));
+//		list.add(new ExamBean(0, "理科", 70));
+//		list.add(new ExamBean(1, "算数", 60));
+//		list.add(new ExamBean(1, "理科", 90));
+
+		return list;
 	}
 
 	@Override
@@ -42,7 +61,7 @@ public class ExamService extends DAO implements Service {
 		Connection db = this.getConnection();
 		ExamBean exam = (ExamBean) bean;
 		boolean result = false;
-		try (PreparedStatement ps = db.prepareStatement("INSERT INTO examtbl(studenId, subjectName, point) VALUES(?, ?, ?)")) {
+		try (PreparedStatement ps = db.prepareStatement("INSERT INTO examtbl(studentId, subjectName, point) VALUES(?, ?, ?)")) {
 			ps.setInt(1, exam.getStudentId());
 			ps.setString(2, exam.getSubjectName());
 			ps.setFloat(3, exam.getPoint());

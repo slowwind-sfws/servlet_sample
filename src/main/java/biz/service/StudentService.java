@@ -43,7 +43,7 @@ public class StudentService extends DAO implements Service {
 		StudentBean st = (StudentBean) bean;
 		boolean result = false;
 		String sql = "INSERT INTO studenttbl(grade, class, serial, name, furi, birth, isMale, address)"
-				+" VALUES(?, ?, ?, ?, ?, ?, ?. ?)";
+				+" VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 		try (PreparedStatement ps = db.prepareStatement(sql)) {
 			ps.setInt(1, st.getGrade());
 			ps.setString(2, st.getClassName());
