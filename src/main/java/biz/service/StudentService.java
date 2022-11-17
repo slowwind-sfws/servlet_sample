@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import biz.Bean;
@@ -28,8 +29,23 @@ public class StudentService extends DAO implements Service {
 
 	@Override
 	public List<Bean> findAll() {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+		List<Bean> list = new ArrayList<Bean>();
+		Connection db = this.getConnection();
+		try (PreparedStatement ps = db.prepareStatement("SELECT * FROM studenttbl")) {
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				list.add(new StudentBean(
+					rs.getInt("id"), rs.getString("serial"), rs.getString("name"), rs.getString("furi"),
+					rs.getString("birth"), rs.getBoolean("isMale"), rs.getString("address")
+				));
+			}
+			rs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.closeConnection(db);
+		}
+		return list;
 	}
 
 	@Override
@@ -42,14 +58,11 @@ public class StudentService extends DAO implements Service {
 			ps.setInt(1, id);
 			rs = ps.executeQuery();
 			if (rs.next()) {
-				//System.out.println("ここまで");
 				bean = new StudentBean(
 						rs.getInt("id"), rs.getString("serial"), rs.getString("name"), rs.getString("furi"),
 						rs.getString("birth"), rs.getBoolean("isMale"), rs.getString("address"));
-				//System.out.println("ここまで");
 			}
 			rs.close();
-			//System.out.println("ここまで");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -92,8 +105,16 @@ public class StudentService extends DAO implements Service {
 
 	@Override
 	public void delete(int id) throws DataNotFoundException {
-		// TODO 自動生成されたメソッド・スタブ
-
+		Connection db = this.getConnection();
+		String sql = "DELETE FROM studenttbl WHERE id=?";
+		try (PreparedStatement ps = db.prepareStatement(sql)) {
+			ps.setInt(1, id);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.closeConnection(db);
+		}
 	}
 
 }

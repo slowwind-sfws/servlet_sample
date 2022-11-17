@@ -36,9 +36,6 @@ public class ExamService extends DAO implements Service {
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				int stuId = rs.getInt("studentId");
-				System.out.println(stuId);
-				//StudentBean b = (StudentBean) StudentService.getInstance().findById(0);
-				//System.out.println(b.getName());
 				StudentBean bean = ((StudentBean)StudentService.getInstance().findById(stuId));
 				list.add(new ExamBean(bean, rs.getString("subjectName"), rs.getInt("point")));
 			}
@@ -48,11 +45,6 @@ public class ExamService extends DAO implements Service {
 		} finally {
 			this.closeConnection(db);
 		}
-//		list.add(new ExamBean(0, "算数", 80));
-//		list.add(new ExamBean(0, "理科", 70));
-//		list.add(new ExamBean(1, "算数", 60));
-//		list.add(new ExamBean(1, "理科", 90));
-
 		return list;
 	}
 
@@ -66,13 +58,9 @@ public class ExamService extends DAO implements Service {
 	public boolean register(Bean bean) {
 		Connection db = this.getConnection();
 		ExamBean exam = (ExamBean) bean;
-//		StudentBean b = (StudentBean) exam.getStudent();
-//		System.out.println(b);
 		boolean result = false;
 		try (PreparedStatement ps = db.prepareStatement("INSERT INTO examtbl(studentId, subjectName, point) VALUES(?, ?, ?)")) {
 			ps.setInt(1, exam.getStudent().getId());
-			//ps.setInt(1, 0);
-			//System.out.println("ここまで");
 			ps.setString(2, exam.getSubjectName());
 			ps.setFloat(3, exam.getPoint());
 			ps.executeUpdate();
