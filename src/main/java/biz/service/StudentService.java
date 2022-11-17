@@ -2,6 +2,7 @@ package biz.service;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -33,8 +34,28 @@ public class StudentService extends DAO implements Service {
 
 	@Override
 	public Bean findById(int id) throws DataNotFoundException {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+		Connection db = this.getConnection();
+		String sql = "SELECT * FROM studenttbl WHERE id=?";
+		ResultSet rs = null;
+		StudentBean bean = null;
+		try (PreparedStatement ps = db.prepareStatement(sql)) {
+			ps.setInt(1, id);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				//System.out.println("ここまで");
+				bean = new StudentBean(
+						rs.getInt("id"), rs.getString("serial"), rs.getString("name"), rs.getString("furi"),
+						rs.getString("birth"), rs.getBoolean("isMale"), rs.getString("address"));
+				//System.out.println("ここまで");
+			}
+			rs.close();
+			//System.out.println("ここまで");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.closeConnection(db);
+		}
+		return bean;
 	}
 
 	@Override

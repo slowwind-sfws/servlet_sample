@@ -56,10 +56,16 @@ public class AppTestListener implements ServletContextListener {
 				s_service.register(new StudentBean("21-70002", "piyo", "piyo", "20001224", false, "piyo"));
 				if (e_service.execSQL("CREATE TABLE IF NOT EXISTS examtbl"
 						+ "(id IDENTITY, studentId INTEGER, subjectName VARCHAR(64), point INTEGER)")) {
-					e_service.register(new ExamBean(0,"数学", 80));
-					e_service.register(new ExamBean(0,"国語", 70));
-					e_service.register(new ExamBean(1,"数学", 60));
-					e_service.register(new ExamBean(1,"国語", 90));
+					//System.out.println("ここまで");
+					try {
+						e_service.register(new ExamBean((StudentBean)s_service.findById(1),"数学", 80));
+						e_service.register(new ExamBean((StudentBean)s_service.findById(1),"国語", 70));
+						e_service.register(new ExamBean((StudentBean)s_service.findById(2),"数学", 60));
+						e_service.register(new ExamBean((StudentBean)s_service.findById(2),"国語", 90));
+					} catch (DataNotFoundException e) {
+						e.printStackTrace();
+					}
+					//System.out.println("ここまで");
 				}
 				//System.out.println("TestUserDB is READY.");
 			} else {

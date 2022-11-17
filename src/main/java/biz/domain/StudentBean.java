@@ -20,6 +20,12 @@ public class StudentBean implements Bean {
 
 	public StudentBean(String serial, String name, String furi, String birth,
 			boolean isMale, String addr) {
+		this(0, serial, name, furi, birth, isMale, addr);
+	}
+
+	public StudentBean(int id, String serial, String name, String furi, String birth,
+			boolean isMale, String addr) {
+		this.setId(id);
 		this.setSerial(serial);
 		this.setName(name);
 		this.setFuri(furi);
@@ -32,4 +38,5 @@ public class StudentBean implements Bean {
 		this.setGrade(grade);
 		this.setClassName(className);
 	}
+
 }

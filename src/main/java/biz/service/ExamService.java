@@ -12,6 +12,7 @@ import biz.DAO;
 import biz.DataNotFoundException;
 import biz.Service;
 import biz.domain.ExamBean;
+import biz.domain.StudentBean;
 
 public class ExamService extends DAO implements Service {
 	// Singletonパターン（GoFデザインパターン）
@@ -34,10 +35,15 @@ public class ExamService extends DAO implements Service {
 		try (PreparedStatement ps = db.prepareStatement("SELECT * FROM examtbl")) {
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
-				list.add(new ExamBean(rs.getInt("studentId"), rs.getString("subjectName"), rs.getInt("point")));
+				int stuId = rs.getInt("studentId");
+				System.out.println(stuId);
+				//StudentBean b = (StudentBean) StudentService.getInstance().findById(0);
+				//System.out.println(b.getName());
+				StudentBean bean = ((StudentBean)StudentService.getInstance().findById(stuId));
+				list.add(new ExamBean(bean, rs.getString("subjectName"), rs.getInt("point")));
 			}
 			rs.close();
-		} catch (SQLException e) {
+		} catch (SQLException | DataNotFoundException e) {
 			e.printStackTrace();
 		} finally {
 			this.closeConnection(db);
@@ -60,9 +66,13 @@ public class ExamService extends DAO implements Service {
 	public boolean register(Bean bean) {
 		Connection db = this.getConnection();
 		ExamBean exam = (ExamBean) bean;
+//		StudentBean b = (StudentBean) exam.getStudent();
+//		System.out.println(b);
 		boolean result = false;
 		try (PreparedStatement ps = db.prepareStatement("INSERT INTO examtbl(studentId, subjectName, point) VALUES(?, ?, ?)")) {
-			ps.setInt(1, exam.getStudentId());
+			ps.setInt(1, exam.getStudent().getId());
+			//ps.setInt(1, 0);
+			//System.out.println("ここまで");
 			ps.setString(2, exam.getSubjectName());
 			ps.setFloat(3, exam.getPoint());
 			ps.executeUpdate();
