@@ -15,7 +15,7 @@ public class StudentBean implements Bean {
 	private boolean isMALE = true; // 性別（男性：TRUE）
 	private String address = null; // 住所
 
-	public StudentBean() {
+	private StudentBean() {
 	}
 
 	public StudentBean(String serial, String name, String furi, String birth,

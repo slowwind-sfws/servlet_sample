@@ -99,8 +99,21 @@ public class StudentService extends DAO implements Service {
 
 	@Override
 	public void update(Bean bean) throws DataNotFoundException {
-		// TODO 自動生成されたメソッド・スタブ
-
+		Connection db = this.getConnection();
+		String sql = "UPDATE studenttbl SET serial=?, name=?, furi=?, birth=?, address=? WHERE id=?";
+		try (PreparedStatement ps = db.prepareStatement(sql)) {
+			ps.setString(1, ((StudentBean)bean).getSerial());
+			ps.setString(2, ((StudentBean)bean).getName());
+			ps.setString(3, ((StudentBean)bean).getFuri());
+			ps.setString(4, ((StudentBean)bean).getBirth());
+			ps.setString(5, ((StudentBean)bean).getAddress());
+			ps.setInt(6, ((StudentBean)bean).getId());
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.closeConnection(db);
+		}
 	}
 
 	@Override
