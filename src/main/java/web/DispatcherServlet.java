@@ -23,7 +23,13 @@ public class DispatcherServlet extends HttpServlet {
 		PrintWriter out = resp.getWriter();
 		try {
 			String path = req.getServletPath().substring(1);
-			path = path.substring(0, 1).toUpperCase() + path.substring(1); //
+			String[] elements = path.split("/");
+			if (elements.length == 1) {
+				path = path.substring(0, 1).toUpperCase() + path.substring(1);
+			} else {
+				path  = elements[0].toLowerCase() + "/";
+				path += elements[1].substring(0, 1).toUpperCase() + elements[1].substring(1);
+			}
 			String name = path.replace(".a", "A").replace("/", ".");
 			Action action = (Action) Class.forName("web.action." + name).getDeclaredConstructor().newInstance();
 			String url = action.execute(req, resp);

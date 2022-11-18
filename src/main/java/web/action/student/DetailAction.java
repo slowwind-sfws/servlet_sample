@@ -1,4 +1,4 @@
-package web.action;
+package web.action.student;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -7,7 +7,7 @@ import biz.domain.StudentBean;
 import biz.service.StudentService;
 import web.Action;
 
-public class StudentDetailAction implements Action {
+public class DetailAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {

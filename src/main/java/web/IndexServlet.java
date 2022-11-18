@@ -27,7 +27,7 @@ public class IndexServlet extends HttpServlet {
 		}
 		req.getSession().setAttribute("user", user);
 		TemplateEngineUtil.render("index", req, resp);*/
-		resp.sendRedirect("/servlet_sample/Home.action");
+		resp.sendRedirect("/servlet_sample/home.action");
 	}
 
 }

@@ -1,4 +1,4 @@
-package web.action;
+package web.action.student;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import biz.Bean;
 import biz.service.StudentService;
 import web.Action;
 
-public class StudentDeleteAction implements Action {
+public class DeleteAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
