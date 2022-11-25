@@ -93,14 +93,33 @@ public class ExamService extends DAO implements Service {
 
 	@Override
 	public void update(Bean bean) throws DataNotFoundException {
-		// TODO 自動生成されたメソッド・スタブ
-
+		Connection db = this.getConnection();
+		String sql = "UPDATE examtbl SET studentId=?, subjectName=?, point=? WHERE id=?";
+		try (PreparedStatement ps = db.prepareStatement(sql)) {
+			ps.setInt(1, ((ExamBean)bean).getStudent().getId());
+			ps.setString(2, ((ExamBean)bean).getSubjectName());
+			ps.setFloat(3, ((ExamBean)bean).getPoint());
+			ps.setInt(4, ((ExamBean)bean).getId());
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.closeConnection(db);
+		}
 	}
 
 	@Override
 	public void delete(int id) throws DataNotFoundException {
-		// TODO 自動生成されたメソッド・スタブ
-
+		Connection db = this.getConnection();
+		String sql = "DELETE FROM examtbl WHERE id=?";
+		try (PreparedStatement ps = db.prepareStatement(sql)) {
+			ps.setInt(1, id);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.closeConnection(db);
+		}
 	}
 
 }
