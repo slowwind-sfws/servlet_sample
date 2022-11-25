@@ -37,7 +37,7 @@ public class ExamService extends DAO implements Service {
 			while(rs.next()) {
 				int stuId = rs.getInt("studentId");
 				StudentBean bean = ((StudentBean)StudentService.getInstance().findById(stuId));
-				list.add(new ExamBean(bean, rs.getString("subjectName"), rs.getInt("point")));
+				list.add(new ExamBean(rs.getInt("id"),bean, rs.getString("subjectName"), rs.getInt("point")));
 			}
 			rs.close();
 		} catch (SQLException | DataNotFoundException e) {
@@ -50,8 +50,26 @@ public class ExamService extends DAO implements Service {
 
 	@Override
 	public Bean findById(int id) throws DataNotFoundException {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+		Connection db = this.getConnection();
+		String sql = "SELECT * FROM examtbl WHERE id=?";
+		ResultSet rs = null;
+		ExamBean exam = null;
+		try (PreparedStatement ps = db.prepareStatement(sql)) {
+			ps.setInt(1, id);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				int stuId = rs.getInt("studentId");
+				StudentBean bean = ((StudentBean)StudentService.getInstance().findById(stuId));
+				exam = new ExamBean(
+						rs.getInt("id"), bean, rs.getString("subjectName"), rs.getInt("point"));
+			}
+			rs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.closeConnection(db);
+		}
+		return exam;
 	}
 
 	@Override

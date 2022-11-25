@@ -15,7 +15,11 @@ public class ExamBean implements Bean {
 	}
 
 	public ExamBean(StudentBean student, String subjectName, float point) {
-		//this.setStudentId(studentId);
+		this(0, student, subjectName, point);
+	}
+
+	public ExamBean(int id, StudentBean student, String subjectName, float point){
+		this.setId(id);
 		this.setStudent(student);
 		this.setSubjectName(subjectName);
 		this.setPoint(point);
