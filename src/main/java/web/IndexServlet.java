@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Servlet implementation class IndexServlet
+ * デフォルトのパスだけFrontControllerに集められないので、別実装します
  */
 @WebServlet("/")
 public class IndexServlet extends HttpServlet {
@@ -17,16 +18,7 @@ public class IndexServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		/*req.setCharacterEncoding("UTF-8");
-		resp.setContentType("text/html; charset=UTF-8");
-		req.setAttribute("recipient", "World");
-		UserBean user = (UserBean) req.getSession().getAttribute("user");
-
-		if (user == null) {
-			user = new UserBean();
-		}
-		req.getSession().setAttribute("user", user);
-		TemplateEngineUtil.render("index", req, resp);*/
+		// 単純に、HomeActionにリダイレクトします。
 		resp.sendRedirect("/servlet_sample/home.action");
 	}
 

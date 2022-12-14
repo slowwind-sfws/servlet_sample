@@ -13,6 +13,12 @@ import util.TemplateEngineUtil;
 
 /**
  * Servlet implementation class DispatcherServlet
+ *
+ * テキストでも紹介されていた、「FrontController」パターンを利用します。
+ * 特にチームで開発する際、機能実装チームがどのようなクラス命名するかは事後的にしか
+ * わからないため、基盤開発チームは「あらかじめ想定して」規則を作っておきます。
+ * 詳細は「設定より規約」で検索してください。
+ * 名前のわからないクラスを操作したりする手法を「リフレクションプログラミング」といいます。
  */
 @WebServlet(urlPatterns = { "*.action" })
 public class DispatcherServlet extends HttpServlet {
@@ -22,6 +28,8 @@ public class DispatcherServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		PrintWriter out = resp.getWriter();
 		try {
+			// 「http://xxx/yyy/zzz」のRESTUFULな構造にしたくて、少しアレンジを入れています。
+			// ※不十分なことはわかっています！！(笑)
 			String path = req.getServletPath().substring(1);
 			String[] elements = path.split("/");
 			if (elements.length == 1) {
