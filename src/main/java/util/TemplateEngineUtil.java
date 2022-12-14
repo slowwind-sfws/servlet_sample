@@ -12,12 +12,17 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+/*
+ * 今回、実験的にテンプレートエンジンをJSPから「Thymeleaf」に変更しています。
+ * 「Thymeleaf」はSpringFrameworkで採用されているエンジンで、スクリプト部分を
+ * HTMLタグ内の「th:」で始まる属性（Attribute）に内包できるところが特徴です。
+ * Webデザイナーと分業するときに喜ばれます(笑)
+ * ※今回の実装では、代償としてリダイレクトができなくなっております汗
+ */
 public class TemplateEngineUtil {
 	private static TemplateEngine engine = null;
 
-	private TemplateEngineUtil() {
-
-	}
+	private TemplateEngineUtil() {}
 
 	public static TemplateEngine getTemplateEngine(ServletContext servletContext) {
 		if (engine == null) {
@@ -34,20 +39,9 @@ public class TemplateEngineUtil {
 
 	public static void render(String template, HttpServletRequest req, HttpServletResponse resp)
 			 throws ServletException, IOException {
+		// WebContextを宣言することで、セッション情報を含むすべての変数を持ち出します
 		WebContext context = new WebContext(req, resp, req.getServletContext());
-//		Enumeration<String> names = req.getAttributeNames();
-//        while (names.hasMoreElements()) {
-//            String name = names.nextElement();
-//            Object value = req.getAttribute(name);
-//            context.setVariable(name, value);
-//        }
-//        names = req.getSession().getAttributeNames();
-//        while (names.hasMoreElements()) {
-//            String name = names.nextElement();
-//            Object value = req.getSession().getAttribute(name);
-//            context.getSession().setAttribute(name, value);//.setVariable(name, value);
-//        }
-
+		// Thymeleafエンジンにレンダリング処理を委譲します
 		engine.process(template, context, resp.getWriter());
 	}
 }
