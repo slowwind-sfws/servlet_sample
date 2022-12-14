@@ -130,6 +130,7 @@ public class StudentService extends DAO implements Service {
 		try (PreparedStatement ps = db.prepareStatement(sql)) {
 			ps.setInt(1, id);
 			ps.executeUpdate();
+			ExamService.getInstance().execSQL("DELETE FROM examtbl WHERE studentId="+id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

@@ -8,7 +8,7 @@
 <body>
 	<div class="panel panel-info" th:insert="module/user"></div>
 	<a href="#" th:href="@{/}">リンク</a>
-	<table>
+	<table class="table">
 		<tr><th>名前</th><th>科目</th><th>得点</th></tr>
 		<tr th:if="${!#lists.isEmpty(examlist)}" th:each="exam : ${ examlist }" >
 			<td th:text="${ exam.student.name }">999</td>

@@ -9,9 +9,12 @@
 	<div class="panel panel-info" th:insert="module/user"></div>
 	<h1>学生リスト</h1>
 	<a href="#" th:href="@{/}">リンク</a>
-	<table>
-		<tr><th>名前</th><th>フリガナ</th><th>生年月日</th><th></th></tr>
+	<th:block th:if="${ session.user.isAuth() }">
+	<table class="table">
+		<tr><th>学年</th><th>クラス</th><th>名前</th><th>フリガナ</th><th>生年月日</th><th></th></tr>
 		<tr th:if="${!#lists.isEmpty(stulist)}" th:each="student : ${ stulist }" >
+			<td th:text="${ student.grade + '年' }">3年</td>
+			<td th:text="${ student.className }">情報クラス</td>
 			<td th:text="${ student.name }">大原太郎</td>
 			<td th:text="${ student.furi }">オオハラタロウ</td>
 			<td th:text="${ student.birth }">1999/01/01</td>
@@ -23,6 +26,10 @@
 		</tr>
 	</table>
 	<a href="#" th:href="@{/student/create.action}" >学生登録</a>
+	</th:block>
+	<th:block th:if="${ !session.user.isAuth() }">
+	<p>ユーザーログインをお願いします。</p>
+	</th:block>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
