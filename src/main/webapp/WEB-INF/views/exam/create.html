@@ -10,7 +10,7 @@
 	<h1>点数情報</h1>
 	<a href="#" th:href="@{/}">リンク</a>
 	<th:block th:if="${ session.user.isAuth() }">
-	<form method="post" action="hoge.html" th:action="@{/exam/update.action}">
+	<form method="post" action="hoge.html" th:action="@{/exam/create.action}">
 	<dl >
 		<dt>名前</dt><dd th:text="${ exam.student.name }">大原太郎</dd>
 		<dt>フリガナ</dt><dd th:text="${ exam.student.furi }">オオハラタロウ</dd>
@@ -18,7 +18,6 @@
 		<dd><input type="text" name="subjectName" th:value="${ exam.subjectName }" /></dd>
 		<dt>点数</dt><dd><input type="text" name="point" th:value="${ exam.point }" /></dd>
 	</dl>
-	<input type="hidden" name="id" th:value="${ exam.id }" />
 	<input type="hidden" name="studentId" th:value="${ exam.student.id }" />
 	<input type="submit" name="confirm" value="確認" />
 	</form>

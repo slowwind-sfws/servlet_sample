@@ -7,16 +7,10 @@
 </head>
 <body>
 	<div class="panel panel-info" th:insert="module/user"></div>
-	<a href="#" th:href="@{/}">リンク</a>
-	<table class="table">
-		<tr><th>名前</th><th>科目</th><th>得点</th></tr>
-		<tr th:if="${!#lists.isEmpty(examlist)}" th:each="exam : ${ examlist }" >
-			<td th:text="${ exam.student.name }">999</td>
-			<td th:text="${ exam.subjectName }">英語</td>
-			<td th:text="${ exam.point }">100</td>
-		</tr>
-	</table>
-	<a href="#" th:href="@{/student/create.action}" >学生登録</a>
+	<a class="btn btn-primary" href="#" th:href="@{/student/list.action}" >学生一覧</a>
+	<a class="btn btn-primary"  th:href="@{/student/create.action}" >学生登録</a>
+	<p>独り言：今回、課題の制作目的を「ひととおりServletを学習した学生、または若い先生が、<br>
+	次に勉強する指針」としております。詳細についてはソースファイルのほうを参照してください。</p>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

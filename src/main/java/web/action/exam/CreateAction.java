@@ -22,10 +22,14 @@ public class CreateAction implements Action {
 			ExamService.getInstance().register(
 				new ExamBean(bean, req.getParameter("subjectName"),	Float.parseFloat(req.getParameter("point")))
 			);
-			List<Bean> list = StudentService.getInstance().findAll();
+			List<Bean> list = ExamService.getInstance().findAll();
 			req.setAttribute("examlist", list);
 			return "exam/list";
 		} else {
+			int id = Integer.parseInt(req.getParameter("id"));
+			StudentBean bean = (StudentBean) StudentService.getInstance().findById(id);
+			ExamBean exam = new ExamBean(bean, null, 0);
+			req.setAttribute("exam", exam);
 			return "exam/create";
 		}
 	}
