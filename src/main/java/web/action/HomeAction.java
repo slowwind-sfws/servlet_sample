@@ -13,7 +13,6 @@ public class HomeAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-		req.setAttribute("recipient", "World");
 		List<Bean> list = ExamService.getInstance().findAll();
 		req.setAttribute("examlist", list);
 		return "index";
