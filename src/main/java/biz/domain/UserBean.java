@@ -4,6 +4,9 @@ import biz.Bean;
 import biz.service.UserService;
 import lombok.Data;
 
+/*
+ * StudentBeanを参照
+*/
 @Data
 public class UserBean implements Bean {
 	private String userId = null;
@@ -20,6 +23,7 @@ public class UserBean implements Bean {
 		this.setPass(pass);
 	}
 
+	// ログインではIDパスワードで存在を確認し、成功したらisAuthを真に設定し返します
 	public boolean login(String id, String pass) {
 		UserService service = UserService.getInstance();
 		String realName = null;
@@ -32,6 +36,7 @@ public class UserBean implements Bean {
 		return this.isAuth();
 	}
 
+	// ログアウトするときは単純に、設定を初期化するだけです（セッションに残ります）
 	public void logout() {
 		this.isAuth = false;
 		this.userId = null;

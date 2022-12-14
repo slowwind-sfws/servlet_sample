@@ -3,6 +3,9 @@ package biz.domain;
 import biz.Bean;
 import lombok.Data;
 
+/*
+ * StudentBeanを参照
+*/
 @Data
 public class ExamBean implements Bean {
 	private int id = 0; // 試験ID
