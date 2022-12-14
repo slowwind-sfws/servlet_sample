@@ -12,11 +12,22 @@ import biz.service.StudentService;
 import biz.service.UserService;
 
 /**
- * Application Lifecycle Listener implementation class ExamTestListener
+ * Application Lifecycle Listener implementation class AppTestListener
  *
+ * 研修ではListenerについて触れていませんでした。
+ * 今回Listenerクラスを使用す目的は次の通りです。
+ * ①開発テスト段階でのテストDBを毎回初期化したい
+ * ②開発段階でのDB起動を自動化し、「確実に」メモリ常駐させたい
+ * ③開発からリリースに移行する段階で、テストDBを「確実に」切り離したい
+ * ServletContextListnerから派生したListenerクラスは、@WebListenerアノテーションを
+ * 付加することでシステム起動時（EclipseではTomcat起動時）直後に生成され、
+ * システム終了時（同Tomcat終了時）に破棄されます。
+ * 最終的にデプロイメント候補から「src/test/java」を削除することで、リリース時には
+ * 簡単に切り離すことができます※context.xmlは書き換える必要があります
  */
 @WebListener
 public class AppTestListener implements ServletContextListener {
+	// システムで使用するService（DAO）を登録
 	UserService u_service = null;
 	StudentService s_service = null;
 	ExamService e_service = null;
@@ -25,6 +36,7 @@ public class AppTestListener implements ServletContextListener {
 	 * Default constructor.
 	 */
 	public AppTestListener() {
+		// 起動時にシングルトン生成することで、各インスタンスが唯ひとつずつ常駐します
 		u_service = UserService.getInstance();
 		s_service = StudentService.getInstance();
 		e_service = ExamService.getInstance();
@@ -34,6 +46,7 @@ public class AppTestListener implements ServletContextListener {
 	 * @see ServletContextListener#contextDestroyed(ServletContextEvent)
 	 */
 	public void contextDestroyed(ServletContextEvent arg0) {
+		// 破棄時に各サービスの参照を切るため、確実にメモリから同時解放できます
 		u_service.execSQL("DROP TABLE IF EXISTS usertbl");
 		s_service.execSQL("DROP TABLE IF EXISTS studenttbl");
 		e_service.execSQL("DROP TABLE IF EXISTS examtbl");
@@ -47,12 +60,13 @@ public class AppTestListener implements ServletContextListener {
 	 * @see ServletContextListener#contextInitialized(ServletContextEvent)
 	 */
 	public void contextInitialized(ServletContextEvent arg0) {
+		// Listener生成時に、テーブルを初期化します
 		System.out.println("SystemStart..");
 		u_service.execSQL("DROP TABLE IF EXISTS usertbl");
 		s_service.execSQL("DROP TABLE IF EXISTS studenttbl");
 		e_service.execSQL("DROP TABLE IF EXISTS examtbl");
 
-		if (System.getenv("DATABASE_URL") != null) {
+		if (System.getenv("DATABASE_URL") != null) { // Heroku等にリリースすることを想定
 			u_service.execSQL("CREATE TABLE IF NOT EXISTS usertbl"
 					+ " (id SERIAL, realName VARCHAR(64), userID VARCHAR(64), passwd VARCHAR(64), PRIMARY KEY (id))");
 			s_service.execSQL("CREATE TABLE IF NOT EXISTS studenttbl"
@@ -60,7 +74,7 @@ public class AppTestListener implements ServletContextListener {
 					+ " birth VARCHAR(16), isMale boolean, address VARCHAR(64), PRIMARY KEY (id))");
 			e_service.execSQL("CREATE TABLE IF NOT EXISTS examtbl"
 					+ " (id SERIAL, studentId INTEGER, subjectName VARCHAR(64), point INTEGER, PRIMARY KEY (id))");
-		} else {
+		} else { // 開発テスト時はこちら
 			if (u_service.execSQL("CREATE TABLE IF NOT EXISTS usertbl"
 					+ " (id IDENTITY, realName VARCHAR(64), userID VARCHAR(64), passwd VARCHAR(64))")) {
 
