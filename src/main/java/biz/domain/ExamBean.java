@@ -11,7 +11,7 @@ public class ExamBean implements Bean {
 	private String subjectName = null; // 科目名
 	private float point; // 点数
 
-	public ExamBean(){
+	private ExamBean(){
 	}
 
 	public ExamBean(StudentBean student, String subjectName, float point) {

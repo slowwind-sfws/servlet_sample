@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE configration>
+<!--
+H2Databaseをインメモリで使用しています。
+"jdbc:h2:tcp://..."から"jdbc:h2:mem://..."と変更することで、H2をサーバー起動しなくても
+利用できるようになります。
+注）テーブルの中身を確認するなど可視化できなくなるので、ある程度DBを作りこんだ後変更してください。
+ -->
 <Context displayName="Sample Site" docBase="SampleSite" path="/sandbox_servlet" reloadable="true">
 		<Resource name="jdbc/samplesite" auth="Container" type="javax.sql.DataSource"
 		username="sa" password="" driverClassName="org.h2.Driver"
