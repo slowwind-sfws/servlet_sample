@@ -12,6 +12,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+// 各実装DAOで共通で使用される機能を汎化します。
 public class DAO {
 	private static DataSource ds;
 
@@ -56,7 +57,7 @@ public class DAO {
 		}
 	}
 
-	// 特定のSQLを実行する
+	// 特定のSQLを実行する※ハッキングっぽいので取扱注意
 	public final boolean execSQL(String sql) {
 		Connection con = this.getConnection();
 		boolean result = false;
