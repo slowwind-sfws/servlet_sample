@@ -13,6 +13,13 @@ import biz.DataNotFoundException;
 import biz.Service;
 import biz.domain.StudentBean;
 
+/*
+ * 基本機能をDAOから継承し、実装すべきメソッドをServiceインターフェイスで縛っています。
+ * 入出力のBeanが基底クラス（インターフェイス）となっていますので、呼び出し側で
+ * 毎回キャストする必要があります。
+ * ※Spring等のフレームワークで「依存性の注入（DI）」の機能が使えれば、もうちょっと便利になりますが、
+ * 今回は説明を割愛させてください。
+*/
 public class StudentService extends DAO implements Service {
 	// Singletonパターン（GoFデザインパターン）
 	// 用途：一つのインスタンスを共有する、複数のインスタンス生成を認めない

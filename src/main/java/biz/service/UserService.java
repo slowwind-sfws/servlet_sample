@@ -12,6 +12,7 @@ import biz.DataNotFoundException;
 import biz.Service;
 import biz.domain.UserBean;
 
+//StudentServiceを参照
 public class UserService extends DAO implements Service {
 	// Singletonパターン（GoFデザインパターン）
 	// 用途：一つのインスタンスを共有する、複数のインスタンス生成を認めない

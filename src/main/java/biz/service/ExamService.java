@@ -14,6 +14,7 @@ import biz.Service;
 import biz.domain.ExamBean;
 import biz.domain.StudentBean;
 
+// StudentServiceを参照
 public class ExamService extends DAO implements Service {
 	// Singletonパターン（GoFデザインパターン）
 	// 用途：一つのインスタンスを共有する、複数のインスタンス生成を認めない
@@ -35,6 +36,7 @@ public class ExamService extends DAO implements Service {
 		try (PreparedStatement ps = db.prepareStatement("SELECT * FROM examtbl")) {
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
+				// 学生beanに従属しております汗
 				int stuId = rs.getInt("studentId");
 				StudentBean bean = ((StudentBean)StudentService.getInstance().findById(stuId));
 				list.add(new ExamBean(rs.getInt("id"),bean, rs.getString("subjectName"), rs.getInt("point")));
@@ -58,6 +60,7 @@ public class ExamService extends DAO implements Service {
 			ps.setInt(1, id);
 			rs = ps.executeQuery();
 			if (rs.next()) {
+				// 学生beanに従属しております汗
 				int stuId = rs.getInt("studentId");
 				StudentBean bean = ((StudentBean)StudentService.getInstance().findById(stuId));
 				exam = new ExamBean(
